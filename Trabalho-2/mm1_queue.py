@@ -1,17 +1,7 @@
 def mm1_queue_metrics(arrival_rate, service_rate):
-    """
-    Calculate key metrics for an M/M/1 queue.
-
-    Parameters:
-        arrival_rate (float): λ, the average arrival rate.
-        service_rate (float): μ, the average service rate.
-
-    Returns:
-        dict: A dictionary containing the calculated metrics.
-    """
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
-
+  
     # Traffic intensity
     rho = arrival_rate / service_rate
 
@@ -27,10 +17,14 @@ def mm1_queue_metrics(arrival_rate, service_rate):
     # Average waiting time in the queue
     W_q = rho / (service_rate - arrival_rate)
 
+    # Probability that a customer does not have to wait
+    P_0 = 1 - rho
+
     return {
+        "Probabilidade de Não Esperar (P_0)": P_0,
         "Taxa de Ocupação (ρ)": rho,
         "Número Médio no Sistema (L)": L,
         "Número Médio na Fila (Lq)": L_q,
         "Tempo Médio no Sistema (W)": W,
-        "Tempo Médio na Fila (Wq)": W_q,
+        "Tempo Médio na Fila (Wq)": W_q
     }
