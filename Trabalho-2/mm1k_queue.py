@@ -1,49 +1,50 @@
 import math
 
+# Modelo M/M/1/K
 def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
     """
-    Calculate key metrics for an M/M/1/K queue.
+    Calcular as métricas chave para uma fila M/M/1/K.
 
-    Parameters:
-        arrival_rate (float): λ, the average arrival rate.
-        service_rate (float): μ, the average service rate.
-        max_capacity (int): K, the maximum capacity of the system.
+    Parâmetros:
+        arrival_rate (float): λ, a taxa média de chegada.
+        service_rate (float): μ, a taxa média de serviço.
+        max_capacity (int): K, a capacidade máxima do sistema.
 
-    Returns:
-        dict: A dictionary containing the calculated metrics.
+    Retorna:
+        dict: Um dicionário contendo as métricas calculadas.
     """
     if service_rate <= 0 or arrival_rate <= 0:
         return {"Erro": "Taxas de chegada e serviço devem ser maiores que zero."}
 
-    rho = arrival_rate / service_rate  # Traffic intensity
+    rho = arrival_rate / service_rate  # Intensidade de tráfego
 
-    # Calculate P0 (normalization constant)
+    # Calcular P0 (constante de normalização)
     P0_inv = sum((rho**n) / math.factorial(n) for n in range(max_capacity + 1))
     P0 = 1 / P0_inv
 
-    # Calculate Pn for all n
+    # Calcular Pn para todos os n
     Pn = [P0 * (rho**n) / math.factorial(n) for n in range(max_capacity + 1)]
 
-    # Blocking probability (P_block = Pk)
+    # Probabilidade de bloqueio (P_block = Pk)
     P_block = Pn[max_capacity]
 
-    # Effective arrival rate
+    # Taxa efetiva de chegada
     lambda_eff = arrival_rate * (1 - P_block)
 
-    # Average number of customers in the system (L)
+    # Número médio de clientes no sistema (L)
     L = sum(n * Pn[n] for n in range(max_capacity + 1))
 
-    # Average time in the system (W)
+    # Tempo médio no sistema (W)
     W = L / lambda_eff if lambda_eff > 0 else 0
 
-    # Average number of customers in the queue (Lq)
+    # Número médio de clientes na fila (Lq)
     L_q = L - (1 - P_block)
 
-    # Average waiting time in the queue (Wq)
+    # Tempo médio de espera na fila (Wq)
     W_q = W - (1 / service_rate)
 
     return {
-        "Taxa de Ocupação (ρ)": rho,
+        "\nTaxa de Ocupação (ρ)": rho,
         "Probabilidade de Bloqueio (P_block)": P_block,
         "Número Médio no Sistema (L)": L,
         "Número Médio na Fila (Lq)": L_q,
