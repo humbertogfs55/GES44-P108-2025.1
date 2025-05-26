@@ -1,5 +1,9 @@
 # Modelo M/M/1/N (população finita)
+<<<<<<< HEAD
 def mm1_finite_population_metrics(arrival_rate, service_rate, population_size, waiting_cost, service_cost):
+=======
+def mm1_finite_population_metrics(arrival_rate, service_rate, population_size):
+>>>>>>> 72fd703979bb5b07f5bcbc56b66cd8150cf82705
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
 

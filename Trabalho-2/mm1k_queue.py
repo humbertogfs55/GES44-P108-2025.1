@@ -1,7 +1,11 @@
 import math
 
 # Modelo M/M/1/K
+<<<<<<< HEAD
 def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost):
+=======
+def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
+>>>>>>> 72fd703979bb5b07f5bcbc56b66cd8150cf82705
     """
     Calcular as métricas chave para uma fila M/M/1/K.
 
