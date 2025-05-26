@@ -1,5 +1,5 @@
 # Modelo M/M/1/N (população finita)
-def mm1_finite_population_metrics(arrival_rate, service_rate, population_size):
+def mm1_finite_population_metrics(arrival_rate, service_rate, population_size, waiting_cost, service_cost):
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
 
@@ -24,6 +24,9 @@ def mm1_finite_population_metrics(arrival_rate, service_rate, population_size):
     throughput = arrival_rate * (1 - probabilities[population_size])
     avg_time_in_system = avg_customers_in_system / throughput
     avg_waiting_time = avg_customers_in_queue / throughput
+    
+    # Custo Total (CT) 
+    CT = waiting_cost * avg_customers_in_system + service_cost * 1 
 
     return {
         "\nProbabilidades Normalizadas": probabilities,
@@ -32,5 +35,6 @@ def mm1_finite_population_metrics(arrival_rate, service_rate, population_size):
         "Taxa de Processamento (T)": throughput,
         "Tempo Médio no Sistema (W)": avg_time_in_system,
         "Tempo Médio na Fila (Wq)": avg_waiting_time,
-        "Probabilidade de Inatividade (P_0)": probabilities[0]
+        "Probabilidade de Inatividade (P_0)": probabilities[0],
+        "Custo Total (CT)": CT
     }

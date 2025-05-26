@@ -1,7 +1,7 @@
 import math
 
 # Modelo M/M/s>1/K
-def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity):
+def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost):
     """
     Calcula as métricas chave para uma fila M/M/s/K.
 
@@ -66,6 +66,9 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity):
 
     # Número médio de servidores ocupados
     busy_servers = sum(min(n, num_servers) * Pn[n] for n in range(max_capacity + 1))
+    
+    # Custo Total (CT) 
+    CT = waiting_cost * L + service_cost * num_servers
 
     return {
         "\nTaxa de Ocupação (ρ)": rho,
@@ -78,6 +81,7 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity):
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio de Serviço (1/mi)": service_time,
         "Número Médio de Servidores Ocupados": busy_servers,
+        "Custo Total (CT)": CT,
         "Distribuição de Probabilidades (Pn)": Pn
     }
 

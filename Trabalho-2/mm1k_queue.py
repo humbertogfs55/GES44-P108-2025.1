@@ -1,7 +1,7 @@
 import math
 
 # Modelo M/M/1/K
-def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
+def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost):
     """
     Calcular as métricas chave para uma fila M/M/1/K.
 
@@ -42,6 +42,9 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
 
     # Tempo médio de espera na fila (Wq)
     W_q = W - (1 / service_rate)
+    
+    # Custo Total (CT) 
+    CT = waiting_cost * L + service_cost * 1
 
     return {
         "\nTaxa de Ocupação (ρ)": rho,
@@ -50,4 +53,5 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
         "Número Médio na Fila (Lq)": L_q,
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": W_q,
+        "Custo Total (CT)": CT,
     }
