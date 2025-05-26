@@ -1,8 +1,6 @@
 import math
 
 # Modelo M/M/s>1/K
-
-
 def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost):
     """
     Calcula as métricas chave para uma fila M/M/s/K.
@@ -94,10 +92,9 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
 
 
 '''
-Teoria das filas Modelo M/M/s/K e MMsN.pdf
-pag. 13
+Modelo M/M/s>1/K
 
-Exemplo 1 - Modelo M/M/s>1/K)
+Exemplo 1)
 
 lambda = 5/h  
 mi = 7/h
@@ -134,5 +131,4 @@ Lq = 3,0920
 W = 12,2442
 Wq = 6,2439
 P7 = 0,5048 = (60 * 0,5048) = 30,29 carro/hora
-
 '''

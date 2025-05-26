@@ -1,11 +1,7 @@
 import math
 
 # Modelo M/M/1/K
-<<<<<<< HEAD
 def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost):
-=======
-def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
->>>>>>> 72fd703979bb5b07f5bcbc56b66cd8150cf82705
     """
     Calcular as métricas chave para uma fila M/M/1/K.
 
@@ -59,3 +55,43 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity):
         "Tempo Médio na Fila (Wq)": W_q,
         "Custo Total (CT)": CT,
     }
+
+'''
+Modelo M/M/1/K
+
+Exemplo 1)
+
+lambda = 0,3 clientes por minuto
+mi = 0,5 clientes por minuto
+K = 2
+s = 1
+
+a) 
+Po = (1-0,3*2)/((1-0,3*2)^2+1)
+Po = 0,5102
+
+b)
+L = (0,3*2/(1-0,3*2)) - (((2+1)*0,3*2^3)/(1-0,3*2^3))
+L = 0,6735 clientes
+
+c)
+Lq = 0,6735 - (1 - 0,5102)
+Lq = 0,1837 clientes
+
+d)
+P2 = ((1-0,3*2)/(1-0,3*2^3)) * 0,3*2^2
+P2 = 0,1837
+
+e) 
+lambda = 0,3 * (1 - 0,1837)
+lambda = 0,2449 (tempo de espera na fila)
+
+Wq = Lq/lambda
+Wq = 0,1837/0,,2449
+Wq = 0,75 minutos
+
+f)
+W = L/ lambda
+W = 0,6735/0,2449
+W = 2,75 minutos
+'''

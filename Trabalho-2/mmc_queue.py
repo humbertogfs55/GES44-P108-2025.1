@@ -51,3 +51,68 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers):
         "Tempo Médio na Fila (Wq)": W_q,
         "Tempo Médio no Sistema (W)": W,
     }
+
+'''
+Modelo M/M/s>1
+
+Exemplo 01)
+
+Po =0,143
+p = 30/2*20 = 0,75
+lambda = 30 clientes por hora
+mi = 20 clientes por hora
+S = 2
+
+a) 
+Lq = (0,143*(1,5)^2 * 0,75)/(2!*(1-0,75)^2)
+Lq = 1,9305 clientes
+
+b)
+Wq = 1,9305/30 
+Wq = 0,064 horas 
+
+c)
+L = 1,9305 + (30/20)
+L = 3,4305 clientes 
+
+d)
+W = 3,4305/30
+W = 0,114 horas
+
+e)
+P(W > 0,2) = taca na formula la
+P(W > 0,2) = 0,1689
+
+f) 
+P1 = (1,5^1/1!)*0,143 
+P1 = 0,2145
+
+P(Wq > 0,1) = [1 - 0,3575] * e^(-2*20*(1-0,75)*0,1)
+P(Wq > 0,1) = 0,2364
+
+g)
+P3 = ((1,5)^3/(2!*(2^3-2))) * 0,143
+P3 = 0,1206
+
+----------------------------------------------------------------
+Exemplo 02) 
+
+lambda = 0,6 clientes por minuto
+mi = 0,5 clientes por minuto
+S = 3
+Po = 0,294
+
+a) 
+P = 0,6/3*0,5
+P = 0,4 
+
+b) 
+L = 0,094 + 1,2 
+L = 1,29 clientes
+
+c)
+Lq = (0,294*(1,2^3)*0,4)/(3!*(1-0,4)^2)
+Lq = 0,094 clientes
+
+d) Po = 0,294 
+'''
