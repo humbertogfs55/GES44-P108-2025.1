@@ -35,8 +35,10 @@ def handle_mm1_finite():
     arrival_rate = float(input("Digite a taxa de chegada (λ): "))
     service_rate = float(input("Digite a taxa de serviço (μ): "))
     population_size = int(input("Digite o tamanho da população (N): "))
+    waiting_cost = float(input("Digite o custo de espera (CE): "))
+    service_cost = float(input("Digite o custo de atendimento (CA): "))
     metrics = mm1_finite_population_metrics(
-        arrival_rate, service_rate, population_size)
+        arrival_rate, service_rate, population_size, waiting_cost, service_cost)
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -65,7 +67,9 @@ def handle_mm1k():
     arrival_rate = float(input("Digite a taxa de chegada (λ): "))
     service_rate = float(input("Digite a taxa de serviço (μ): "))
     max_capacity = int(input("Digite a capacidade máxima do sistema (K): "))
-    metrics = mm1k_queue_metrics(arrival_rate, service_rate, max_capacity)
+    waiting_cost = float(input("Digite o custo de espera (CE): "))
+    service_cost = float(input("Digite o custo de atendimento (CA): "))
+    metrics = mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost)
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -79,8 +83,10 @@ def handle_mmc_k():
     service_rate = float(input("Digite a taxa de serviço (μ): "))
     num_servers = int(input("Digite o número de servidores (c): "))
     max_capacity = int(input("Digite a capacidade máxima do sistema (K): "))
+    waiting_cost = float(input("Digite o custo de espera (CE): "))
+    service_cost = float(input("Digite o custo de atendimento (CA): "))
     metrics = mmc_k_queue_metrics(
-        arrival_rate, service_rate, num_servers, max_capacity)
+        arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost)
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
