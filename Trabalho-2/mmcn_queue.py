@@ -1,6 +1,6 @@
 import math
 
-def mmsn_queue_metrics(arrival_rate, service_rate, num_servers, system_capacity):
+def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, system_capacity):
     """
     Modelo M/M/s/N
 
@@ -56,6 +56,6 @@ def mmsn_queue_metrics(arrival_rate, service_rate, num_servers, system_capacity)
     }
 
 # Exemplo de uso:
-resultados = mmsn_queue_metrics(arrival_rate=4, service_rate=2, num_servers=2, system_capacity=5)
+resultados = mmcn_queue_metrics(arrival_rate=4, service_rate=2, num_servers=2, system_capacity=5)
 for k, v in resultados.items():
     print(f"{k}: {v:.4f}")

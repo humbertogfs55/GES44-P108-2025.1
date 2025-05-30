@@ -10,6 +10,8 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
         service_rate (float): μ, taxa média de serviço.
         num_servers (int): s, número de servidores.
         max_capacity (int): K, capacidade máxima do sistema.
+        waiting_cost (float): Custo de espera por cliente.
+        service_cost (float): Custo de serviço por cliente.
 
     Retorna:
         dict: Métricas de desempenho do sistema.
@@ -87,7 +89,7 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
         "Tempo Médio de Serviço (1/mi)": service_time,
         "Número Médio de Servidores Ocupados": busy_servers,
         "Custo Total (CT)": CT,
-        "Distribuição de Probabilidades (Pn)": Pn
+        "Probabilidade de existir n clientes (Pn)": Pn,
     }
 
 

@@ -1,7 +1,7 @@
 import math
 
-# Modelo M/M/s>1
-def mmc_queue_metrics(arrival_rate, service_rate, num_servers):
+
+def mmc_queue_metrics(arrival_rate, service_rate, num_servers, waiting_time_w, waiting_time_wq, num_clients):
     """
     Calcular as métricas chave para uma fila M/M/c.
 
@@ -9,6 +9,9 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers):
         arrival_rate (float): λ, a taxa média de chegada.
         service_rate (float): μ, a taxa média de serviço.
         num_servers (int): c, o número de servidores.
+        waiting_time_w (float): Tempo t1 para cálculo de P(W > t).
+        waiting_time_wq (float): Tempo t2 para cálculo de P(Wq > t).
+        num_clients (int): N, o número de clientes no sistema.
 
     Retorna:
         dict: Um dicionário contendo as métricas calculadas.
@@ -43,6 +46,36 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers):
     # Tempo médio no sistema (W)
     W = W_q + 1 / service_rate
 
+    # t >= 0
+    if waiting_time_w < 0 or waiting_time_wq < 0:
+        return {"Erro": "Os tempos de espera devem ser maiores ou iguais a zero."}
+
+    # Probabilidade de W > t (P(W > t))
+    exp_term_w = math.exp(-service_rate * waiting_time_w)
+    bracket_numerator = 1 - \
+        math.exp(-service_rate * waiting_time_w *
+                 (num_servers - 1 - (arrival_rate/service_rate)))
+    bracket_denominator = num_servers - 1 - (arrival_rate/service_rate)
+
+    P_W_greater_t = exp_term_w * (1 + (P0 * ((arrival_rate/service_rate) ** num_servers) / (math.factorial(num_servers) * (1 - rho))) *
+                                  (bracket_numerator / bracket_denominator))
+
+    # Calcular P(Wq = 0) = soma das probabilidades de 0 até s-1 clientes
+    P_Wq_equals_0 = sum(((arrival_rate/service_rate) ** n /
+                        math.factorial(n)) * P0 for n in range(num_servers))
+
+    # Probabilidade de Wq > t (P(Wq > t))
+    P_Wq_greater_t = (1 - P_Wq_equals_0) * math.exp(-service_rate *
+                                                    (num_servers - rho * num_servers) * waiting_time_wq)
+
+    # Probabilidade de ter n clientes no sistema (P_n)
+    if num_clients < num_servers:
+        P_n = (math.pow(arrival_rate / service_rate, num_clients) /
+               math.factorial(num_clients)) * P0
+    else:
+        P_n = (math.pow(arrival_rate / service_rate, num_clients) /
+               (math.factorial(num_servers) * math.pow(num_servers, num_clients - num_servers))) * P0
+
     return {
         "\nTaxa de Ocupação (ρ)": rho,
         "Probabilidade de Fila (P_queue)": P_queue,
@@ -50,7 +83,11 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers):
         "Número Médio no Sistema (L)": L,
         "Tempo Médio na Fila (Wq)": W_q,
         "Tempo Médio no Sistema (W)": W,
+        "Probabilidade de W > t": P_W_greater_t,
+        "Probabilidade de Wq > t": P_Wq_greater_t,
+        "Probabilidade de ter n clientes no sistema (P_n)": P_n
     }
+
 
 '''
 Modelo M/M/s>1

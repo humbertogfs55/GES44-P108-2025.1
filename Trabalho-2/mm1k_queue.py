@@ -1,7 +1,4 @@
-import math
-
-# Modelo M/M/1/K
-def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost):
+def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost, num_clients):
     """
     Calcular as métricas chave para uma fila M/M/1/K.
 
@@ -9,6 +6,9 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
         arrival_rate (float): λ, a taxa média de chegada.
         service_rate (float): μ, a taxa média de serviço.
         max_capacity (int): K, a capacidade máxima do sistema.
+        waiting_cost (float): Custo de espera por cliente.
+        service_cost (float): Custo de serviço por cliente.
+        num_clients (int): N, o número de clientes no sistema.
 
     Retorna:
         dict: Um dicionário contendo as métricas calculadas.
@@ -16,14 +16,18 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
     if service_rate <= 0 or arrival_rate <= 0:
         return {"Erro": "Taxas de chegada e serviço devem ser maiores que zero."}
 
-    rho = arrival_rate / service_rate  # Intensidade de tráfego
+    rho = arrival_rate / service_rate  # Intensidade de tráfego (ρ)
 
     # Calcular P0 (constante de normalização)
-    P0_inv = sum((rho**n) / math.factorial(n) for n in range(max_capacity + 1))
-    P0 = 1 / P0_inv
+    if rho == 1:
+        P0 = 1 / (max_capacity + 1)
+    else:
+        P0 = (1 - rho) / (1 - rho**(max_capacity + 1))
 
     # Calcular Pn para todos os n
-    Pn = [P0 * (rho**n) / math.factorial(n) for n in range(max_capacity + 1)]
+    Pn = []
+    for n in range(max_capacity + 1):
+        Pn.append(P0 * (rho**n))
 
     # Probabilidade de bloqueio (P_block = Pk)
     P_block = Pn[max_capacity]
@@ -32,28 +36,39 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
     lambda_eff = arrival_rate * (1 - P_block)
 
     # Número médio de clientes no sistema (L)
-    L = sum(n * Pn[n] for n in range(max_capacity + 1))
+    if rho == 1:
+        L = max_capacity / 2
+    else:
+        numerator = rho / (1 - rho)
+        correction = ((max_capacity + 1) * (rho**(max_capacity + 1))) / (1 - rho**(max_capacity + 1))
+        L = numerator - correction
 
     # Tempo médio no sistema (W)
     W = L / lambda_eff if lambda_eff > 0 else 0
 
     # Número médio de clientes na fila (Lq)
-    L_q = L - (1 - P_block)
+    L_q = L - (1 - P0)
 
     # Tempo médio de espera na fila (Wq)
-    W_q = W - (1 / service_rate)
+    W_q = L_q / lambda_eff if lambda_eff > 0 else 0
+    
+    # Probabilidade de existir n clientes no sistema (Pn)
+    Pn = [P0 * (rho**num_clients) for n in range(max_capacity + 1)]
     
     # Custo Total (CT) 
     CT = waiting_cost * L + service_cost * 1
 
     return {
         "\nTaxa de Ocupação (ρ)": rho,
+        "Probabilidade de Não Ocupação (P0)": P0,
         "Probabilidade de Bloqueio (P_block)": P_block,
+        "Taxa Efetiva de Chegada (λ_eff)": lambda_eff,
         "Número Médio no Sistema (L)": L,
         "Número Médio na Fila (Lq)": L_q,
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": W_q,
         "Custo Total (CT)": CT,
+        "Probabilidade de existir n clientes (Pn)": Pn,
     }
 
 '''

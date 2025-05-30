@@ -1,5 +1,5 @@
 # Modelo M/M/1/N (população finita)
-def mm1_finite_population_metrics(arrival_rate, service_rate, population_size, waiting_cost, service_cost):
+def mm1n_queue_metrics(arrival_rate, service_rate, population_size, waiting_cost, service_cost):
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
 
