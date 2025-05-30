@@ -1,7 +1,7 @@
 import math
 
 # Modelo M/M/1
-def mm1_queue_metrics(arrival_rate, service_rate, waiting_time):
+def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq):
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
 
@@ -36,15 +36,16 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time):
     P_occupied = 1 - P_0_final
 
     # t >= 0
-    if waiting_time >= 0:
-        # Probabilidade de W > t (P(W > t))
-        P_W_greater_t = math.exp(-service_rate * (1 - rho) * waiting_time)
+    if waiting_time_w < 0 or waiting_time_wq < 0:
+        return {"Erro": "Os tempos de espera devem ser maiores ou iguais a zero."}
+    
+    
+    # Probabilidade de W > t (P(W > t))
+    P_W_greater_t = math.exp(-service_rate * (1 - rho) * waiting_time_w)
 
-        # Probabilidade de W_q > t (P(W_q > t))
-        P_Wq_greater_t = rho * \
-            math.exp(-service_rate * (1 - rho) * waiting_time)
-    else:
-        return {"Erro": "O tempo de espera (t) deve ser maior ou igual a zero"}
+    # Probabilidade de W_q > t (P(W_q > t))
+    P_Wq_greater_t = rho * math.exp(-service_rate * (1 - rho) * waiting_time_wq)
+
 
     results = {
         "\nProbabilidade de Não Esperar (P_0)": P_0,
