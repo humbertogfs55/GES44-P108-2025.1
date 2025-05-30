@@ -26,9 +26,9 @@ def handle_mm1():
     print("\n--- Modelo M/M/1 ---")
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
-    waiting_time = parse_float(
-        input("Digite o tempo t para cálculo de P(W > t) e P(Wq > t): "))
-    metrics = mm1_queue_metrics(arrival_rate, service_rate, waiting_time)
+    waiting_time_w = parse_float(input("Digite o tempo t1 para cálculo de P(W > t): "))
+    waiting_time_wq = parse_float(input("Digite o tempo t2 para cálculo de P(Wq > t): "))
+    metrics = mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq)
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
