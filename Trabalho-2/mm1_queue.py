@@ -1,7 +1,20 @@
 import math
 
-# Modelo M/M/1
+
 def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq):
+    """
+    Calcular as métricas chave para uma fila M/M/1.
+
+    Parâmetros:
+        arrival_rate (float): λ, a taxa média de chegada.
+        service_rate (float): μ, a taxa média de serviço.
+        waiting_time_w (float): Tempo t1 para cálculo de P(W > t).
+        waiting_time_wq (float): Tempo t2 para cálculo de P(Wq > t).
+
+    Retorna:
+        dict: Um dicionário contendo as métricas calculadas.
+    """
+    
     if service_rate <= arrival_rate:
         return {"Erro": "O sistema é instável (λ >= μ)."}
 
