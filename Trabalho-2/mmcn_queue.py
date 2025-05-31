@@ -1,5 +1,6 @@
 import math
 
+
 def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size, waiting_cost, service_cost):
     """
     Modelo M/M/s/N
@@ -11,7 +12,7 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
         population_size (int): N - tamanho da população (capacidade do sistema).
         waiting_cost (float): CE - custo de espera por cliente.
         service_cost (float): CA - custo de atendimento por cliente.
-        
+
     Retorna:
         dict: Métricas da fila M/M/s/N
     """
@@ -22,29 +23,33 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
     sum1 = 0
     for n in range(min(num_servers, population_size + 1)):
         if population_size >= n:
-            factorial_term = math.factorial(population_size) / (math.factorial(population_size - n) * math.factorial(n))
+            factorial_term = math.factorial(
+                population_size) / (math.factorial(population_size - n) * math.factorial(n))
             sum1 += factorial_term * ((arrival_rate/service_rate) ** n)
 
     # Segunda soma: n=s até N
     sum2 = 0
     if population_size >= num_servers:
         for n in range(num_servers, population_size + 1):
-            factorial_term = math.factorial(population_size) / (math.factorial(population_size - n) * math.factorial(num_servers) * (num_servers ** (n - num_servers)))
+            factorial_term = math.factorial(population_size) / (math.factorial(
+                population_size - n) * math.factorial(num_servers) * (num_servers ** (n - num_servers)))
             sum2 += factorial_term * ((arrival_rate/service_rate) ** n)
-    
+
     P0 = 1 / (sum1 + sum2)
-    
+
     # Probabilidade de bloqueio (sistema cheio)
     def Pn(n):
         if n > population_size or n < 0:
             return 0
         elif n <= num_servers:
-            factorial_term = math.factorial(population_size) / (math.factorial(population_size - n) * math.factorial(n))
+            factorial_term = math.factorial(
+                population_size) / (math.factorial(population_size - n) * math.factorial(n))
             return factorial_term * ((arrival_rate/service_rate) ** n) * P0
         else:
-            factorial_term = math.factorial(population_size) / (math.factorial(population_size - n) * math.factorial(num_servers) * (num_servers ** (n - num_servers)))
+            factorial_term = math.factorial(population_size) / (math.factorial(
+                population_size - n) * math.factorial(num_servers) * (num_servers ** (n - num_servers)))
             return factorial_term * ((arrival_rate/service_rate) ** n) * P0
-        
+
     probabilities = [Pn(n) for n in range(population_size + 1)]
 
     # Número médio de clientes no sistema (L)
@@ -52,18 +57,18 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
 
     # Número médio de clientes na fila (Lq)
     L_q = L - (arrival_rate/service_rate) * (population_size - L)
-    
+
     # Taxa efetiva de chegada (clientes realmente atendidos)
     lambda_eff = arrival_rate * (population_size - L)
-    
+
     # Tempo médio no sistema (W)
     W = L / lambda_eff if lambda_eff > 0 else 0
 
     # Tempo médio na fila (Wq)
     W_q = L_q / lambda_eff if lambda_eff > 0 else 0
-    
-    # Custo Total (CT) 
-    CT = waiting_cost * L + service_cost * num_servers 
+
+    # Custo Total (CT)
+    CT = waiting_cost * L + service_cost * num_servers
 
     return {
         "\nTaxa de Ocupação (ρ)": rho,
@@ -76,6 +81,7 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
         "Custo Total (CT)": CT,
         "Probabilidades Normalizadas": probabilities
     }
+
 
 '''
 Modelo M/M/s com população finita
