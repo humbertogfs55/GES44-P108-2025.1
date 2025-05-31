@@ -26,14 +26,15 @@ def display_menu():
 
 def handle_mm1():
     print("\n--- Modelo M/M/1 ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     waiting_time_w = parse_float(input("Digite o tempo t1 para cálculo de P(W > t): "))
     waiting_time_wq = parse_float(input("Digite o tempo t2 para cálculo de P(Wq > t): "))
-    
-    metrics = mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq)
-    
+
+    metrics = mm1_queue_metrics(
+        arrival_rate, service_rate, waiting_time_w, waiting_time_wq)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -43,35 +44,37 @@ def handle_mm1():
 
 def handle_mmc():
     print("\n--- Modelo M/M/c ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     num_servers = int(input("Digite o número de servidores (c): "))
     waiting_time_w = parse_float(input("Digite o tempo t1 para cálculo de P(W > t): "))
     waiting_time_wq = parse_float(input("Digite o tempo t2 para cálculo de P(Wq > t): "))
     num_clients = int(input("Digite o número de clientes no sistema (N): "))
-    
-    metrics = mmc_queue_metrics(arrival_rate, service_rate, num_servers, waiting_time_w, waiting_time_wq, num_clients)
-    
+
+    metrics = mmc_queue_metrics(
+        arrival_rate, service_rate, num_servers, waiting_time_w, waiting_time_wq, num_clients)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
         for metric, value in metrics.items():
             print(f"{metric}: {value:.4f}")
-            
-            
+
+
 def handle_mm1k():
     print("\n--- Modelo M/M/1/K ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     max_capacity = int(input("Digite a capacidade máxima do sistema (K): "))
     waiting_cost = parse_float(input("Digite o custo de espera (CE): "))
     service_cost = parse_float(input("Digite o custo de atendimento (CA): "))
     num_clients = int(input("Digite o número de clientes no sistema (N): "))
-    
-    metrics = mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, service_cost, num_clients)
-    
+
+    metrics = mm1k_queue_metrics(
+        arrival_rate, service_rate, max_capacity, waiting_cost, service_cost, num_clients)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -84,16 +87,18 @@ def handle_mm1k():
 
 def handle_mmck():
     print("\n--- Modelo M/M/c/K ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     num_servers = int(input("Digite o número de servidores (c): "))
     max_capacity = int(input("Digite a capacidade máxima do sistema (K): "))
     waiting_cost = parse_float(input("Digite o custo de espera (CE): "))
     service_cost = parse_float(input("Digite o custo de atendimento (CA): "))
-    
-    metrics = mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost)
-    
+    num_clients = int(input("Digite o número de clientes no sistema (N): "))
+
+    metrics = mmc_k_queue_metrics(
+        arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost, num_clients)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -106,15 +111,16 @@ def handle_mmck():
 
 def handle_mm1n():
     print("\n--- Modelo M/M/1/N (população finita) ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     population_size = int(input("Digite o tamanho da população (N): "))
     waiting_cost = parse_float(input("Digite o custo de espera (CE): "))
     service_cost = parse_float(input("Digite o custo de atendimento (CA): "))
-    
-    metrics = mm1n_queue_metrics(arrival_rate, service_rate, population_size, waiting_cost, service_cost)
-    
+
+    metrics = mm1n_queue_metrics(
+        arrival_rate, service_rate, population_size, waiting_cost, service_cost)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -123,18 +129,19 @@ def handle_mm1n():
                 print(f"{metric}: {', '.join(f'{v:.4f}' for v in value)}")
             else:
                 print(f"{metric}: {value:.4f}")
-                
-                
+
+
 def handle_mmcn():
     print("\n--- Modelo M/M/s/N (população finita) ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     num_servers = int(input("Digite o número de servidores (s): "))
     system_capacity = int(input("Digite a capacidade máxima do sistema (N): "))
-    
-    metrics = mmcn_queue_metrics(arrival_rate, service_rate, num_servers, system_capacity)
-    
+
+    metrics = mmcn_queue_metrics(
+        arrival_rate, service_rate, num_servers, system_capacity)
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
@@ -144,13 +151,13 @@ def handle_mmcn():
 
 def handle_mg1():
     print("\n--- Modelo M/G/1 ---")
-    
+
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     sigma_squared = parse_float(input("Digite a variância do tempo de serviço (σ²): "))
-    
+
     metrics = mg1_queue_metrics(arrival_rate, service_rate, sigma_squared)
-    
+
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
