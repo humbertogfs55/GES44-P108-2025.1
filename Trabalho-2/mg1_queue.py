@@ -7,7 +7,7 @@ def mg1_queue_metrics(arrival_rate, service_rate, sigma_squared):
     - service_rate (μ): Taxa média de serviço
     - sigma_squared (σ²): Variância do tempo de serviço
     """
-    
+
     # Taxa de utilização (ρ)
     rho = arrival_rate / service_rate
 
@@ -38,7 +38,8 @@ def mg1_queue_metrics(arrival_rate, service_rate, sigma_squared):
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": Wq,
     }
-    
+
+
 '''
 Modelo M/G/1:
 

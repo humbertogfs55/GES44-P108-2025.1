@@ -1,7 +1,7 @@
 import math
 
-# Modelo M/M/s>1/K
-def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost):
+
+def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, waiting_cost, service_cost, num_clients=0):
     """
     Calcula as métricas chave para uma fila M/M/s/K.
 
@@ -12,6 +12,7 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
         max_capacity (int): K, capacidade máxima do sistema.
         waiting_cost (float): Custo de espera por cliente.
         service_cost (float): Custo de serviço por cliente.
+        num_clients (int): Número de clientes no sistema.
 
     Retorna:
         dict: Métricas de desempenho do sistema.
@@ -38,36 +39,36 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
 
     # Probabilidades Pn
     Pn = []
-    for n in range(0, max_capacity + 1):
-        if n < num_servers:
-            Pn_val = ((arrival_rate / service_rate) ** n / factorial(n)) * P0
+    for num_clients in range(0, max_capacity + 1):
+        if num_clients < num_servers:
+            Pn_val = ((arrival_rate / service_rate) ** num_clients / factorial(num_clients)) * P0
         else:
-            Pn_val = ((arrival_rate / service_rate) ** n /
-                      (factorial(num_servers) * num_servers ** (n - num_servers))) * P0
+            Pn_val = ((arrival_rate / service_rate) ** num_clients /
+                      (factorial(num_servers) * num_servers ** (num_clients - num_servers))) * P0
         Pn.append(Pn_val)
 
     # Probabilidade de bloqueio (P_K)
     P_block = Pn[max_capacity]
 
-    # Taxa efetiva de chegada
+    # Taxa efetiva de chegada (λ_eff)
     arrival_rate_eff = arrival_rate * (1 - P_block)
 
-    # Tempo médio de serviço
+    # Tempo médio de serviço (1/μ)
     service_time = 1 / service_rate
 
-    # Lq: número médio na fila
+    # Número médio na fila (Lq)
     Lq_numerator = P0 * ((arrival_rate / service_rate) ** num_servers) * rho * (1 - rho ** (max_capacity -
                                                                                             num_servers) * (max_capacity - num_servers + 1 - (max_capacity - num_servers) * rho)) if rho != 1 else 0
     Lq_denominator = factorial(num_servers) * ((1 - rho) ** 2)
     Lq = Lq_numerator / Lq_denominator if rho != 1 else 0
 
-    # L: número médio no sistema
+    # Número médio no sistema (L)
     L = sum(n * Pn[n] for n in range(max_capacity + 1))
 
-    # W: tempo médio no sistema
+    # Tempo médio no sistema (W)
     W = L / arrival_rate_eff if arrival_rate_eff != 0 else 0
 
-    # Wq: tempo médio na fila
+    # Tempo médio na fila (Wq)
     Wq = Lq / arrival_rate_eff if arrival_rate_eff != 0 else 0
 
     # Número médio de servidores ocupados
@@ -86,7 +87,7 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
         "Tempo Médio na Fila (Wq)": Wq,
         "Número Médio no Sistema (L)": L,
         "Tempo Médio no Sistema (W)": W,
-        "Tempo Médio de Serviço (1/mi)": service_time,
+        "Tempo Médio de Serviço (1/μ)": service_time,
         "Número Médio de Servidores Ocupados": busy_servers,
         "Custo Total (CT)": CT,
         "Probabilidade de existir n clientes (Pn)": Pn,
