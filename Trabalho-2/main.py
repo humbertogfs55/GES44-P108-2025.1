@@ -137,16 +137,21 @@ def handle_mmcn():
     arrival_rate = parse_float(input("Digite a taxa de chegada (λ): "))
     service_rate = parse_float(input("Digite a taxa de serviço (μ): "))
     num_servers = int(input("Digite o número de servidores (s): "))
-    system_capacity = int(input("Digite a capacidade máxima do sistema (N): "))
-
+    population_size = int(input("Digite o tamanho da população (N): "))
+    waiting_cost = parse_float(input("Digite o custo de espera (CE): "))
+    service_cost = parse_float(input("Digite o custo de atendimento (CA): "))
+    
     metrics = mmcn_queue_metrics(
-        arrival_rate, service_rate, num_servers, system_capacity)
+        arrival_rate, service_rate, num_servers, population_size, waiting_cost, service_cost)
 
     if "Erro" in metrics:
         print(metrics["Erro"])
     else:
         for metric, value in metrics.items():
-            print(f"{metric}: {value:.4f}")
+            if isinstance(value, list):
+                print(f"{metric}: {', '.join(f'{v:.4f}' for v in value)}")
+            else:
+                print(f"{metric}: {value:.4f}")
 
 
 def handle_mg1():
