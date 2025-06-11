@@ -31,16 +31,17 @@ def display_menu():
 """, title="[bold green]Menu Principal"))
 
 def print_metrics(metrics):
-    table = Table(title="[bold green]Resultados")
-    table.add_column("Métrica", justify="left", style="cyan", no_wrap=True)
-    table.add_column("Valor", justify="right", style="yellow")
+    table = Table(title="Resultados da Fila", title_style="bold green")
+    table.add_column("Métrica", style="cyan", no_wrap=True)
+    table.add_column("Valor", style="magenta")
 
-    for metric, value in metrics.items():
-        if isinstance(value, list):
-            val = ", ".join(f"{v:.4f}" for v in value)
-        else:
+    for key, value in metrics.items():
+        if isinstance(value, float) or isinstance(value, int):
             val = f"{value:.4f}"
-        table.add_row(metric, val)
+        else:
+            val = str(value)
+        table.add_row(key, val)
+
     console.print(table)
 
 def handle_mm1():
