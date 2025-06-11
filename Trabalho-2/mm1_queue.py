@@ -61,7 +61,7 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_w
 
 
     results = {
-        "\nProbabilidade de Não Esperar (P_0)": P_0,
+        "Probabilidade de Não Esperar (P_0)": P_0,
         "Taxa de Ocupação (ρ)": rho,
         "Número Médio no Sistema (L)": L,
         "Número Médio na Fila (Lq)": L_q,
