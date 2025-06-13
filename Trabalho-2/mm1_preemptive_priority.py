@@ -1,43 +1,44 @@
-def mm1_preemptive_priority_metrics(service_rates, arrival_rates):
-    rhos = [l / service_rates for l in arrival_rates]
-    total_lambda = sum(arrival_rates)
-    
-    L_list = []
-    Lq_list = []
-    
-    for i in range(len(arrival_rates)):
-        # sum of rhos for all classes with priority >= current class i
-        sum_rho = sum(rhos[:i+1])
-        if sum_rho >= 1:
-            raise ValueError(f"Sistema instável para classe {i+1}: soma dos rho = {sum_rho:.3f} >= 1")
-        
-        W_i = 1 / (service_rates * (1 - sum_rho))
-        Wq_i = W_i - (1 / service_rates)
-        
-        L_i = arrival_rates[i] * W_i
-        Lq_i = arrival_rates[i] * Wq_i
-        
-        L_list.append(L_i)
-        Lq_list.append(Lq_i)
-    
-    L = sum(L_list)
-    Lq = sum(Lq_list)
-    W = L / total_lambda
-    Wq = Lq / total_lambda
-    
-    return {
-        "L": L,
-        "Lq": Lq,
-        "W": W,
-        "Wq": Wq,
-        "per_class": [
-            {
-                "class": i+1,
-                "L": L_list[i],
-                "Lq": Lq_list[i],
-                "W": L_list[i]/arrival_rates[i],
-                "Wq": Lq_list[i]/arrival_rates[i]
-            }
-            for i in range(len(arrival_rates))
-        ]
-    }
+def priority_preemptive_metrics(arrival_rates, service_rate):
+    """
+    arrival_rates: lista com λ de cada classe de prioridade [λ1, λ2, ..., λn]
+    service_rate: taxa de serviço μ
+
+    Retorna dict com métricas por classe.
+    """
+
+    rho_total = sum(lam / service_rate for lam in arrival_rates)
+    if rho_total >= 1:
+        return {"Erro": "Sistema instável: soma das taxas de chegada excede ou iguala capacidade do servidor."}
+
+    results = {}
+    for i, lam_i in enumerate(arrival_rates):
+        rho_i = sum(arrival_rates[j] / service_rate for j in range(i + 1))
+        rho_i_minus_1 = sum(arrival_rates[j] / service_rate for j in range(i)) if i > 0 else 0
+
+        Wq = rho_i_minus_1 / (service_rate * (1 - rho_i))
+        W = Wq + 1 / service_rate
+        Lq = lam_i * Wq
+        L = lam_i * W
+
+        P0 = 1 - rho_total
+        P_occupied = 1 - P0
+        # Para fila preemptiva, a probabilidade de W > t e Wq > t podem ser aproximadas
+        import math
+        t = 1  # valor padrão para cálculo de probabilidades
+        P_W_greater_t = math.exp(-service_rate * (1 - rho_i) * t)
+        P_Wq_greater_t = math.exp(-service_rate * (1 - rho_i) * t)  # mesma aproximação
+
+        results[f"Classe {i + 1}"] = {
+            "Taxa de Chegada (λ)": lam_i,
+            "Taxa de Ocupação (ρ)": rho_total,
+            "Número Médio no Sistema (L)": round(L, 4),
+            "Número Médio na Fila (Lq)": round(Lq, 4),
+            "Tempo Médio no Sistema (W)": round(W, 4),
+            "Tempo Médio na Fila (Wq)": round(Wq, 4),
+            "Probabilidade de o Sistema Ocioso (P(n=0))": round(P0, 4),
+            "Probabilidade de o Sistema Ocupado (P(n>0))": round(P_occupied, 4),
+            "Probabilidade de W > t": round(P_W_greater_t, 4),
+            "Probabilidade de Wq > t": round(P_Wq_greater_t, 4),
+        }
+
+    return results
