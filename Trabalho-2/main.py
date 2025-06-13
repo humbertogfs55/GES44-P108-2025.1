@@ -7,6 +7,7 @@ from mmcn_queue import mmcn_queue_metrics
 from mg1_queue import mg1_queue_metrics
 from mm1_non_preemptive_priority import priority_non_preemptive_metrics
 from mm1_preemptive_priority import priority_preemptive_metrics
+from decimal import Decimal, getcontext
 
 from rich.console import Console
 from rich.table import Table
@@ -15,6 +16,8 @@ from rich.prompt import Prompt
 from rich.text import Text
 
 console = Console()
+
+from decimal import Decimal, getcontext
 
 def parse_float(value):
     return float(value.replace(',', '.'))
@@ -177,12 +180,14 @@ def handle_priority_preemptive():
     arrival_rates = []
 
     for i in range(num_classes):
-        lam = parse_float(Prompt.ask(f"Digite a taxa de chegada (λ) da classe {i+1}"))
+        lam_str = Prompt.ask(f"Digite a taxa de chegada (λ) da classe {i+1}")
+        lam = Decimal(lam_str)
         arrival_rates.append(lam)
 
-    service_rate = parse_float(Prompt.ask("Digite a taxa de serviço (μ)"))
+    service_rate = Decimal(Prompt.ask("Digite a taxa de serviço (μ)"))
+    s = Decimal(Prompt.ask("Digite o numero de canais"))
 
-    metrics = priority_preemptive_metrics(arrival_rates, service_rate)
+    metrics = priority_preemptive_metrics(arrival_rates, service_rate, s)
 
     if "Erro" in metrics:
         console.print(f"[bold red]{metrics['Erro']}")

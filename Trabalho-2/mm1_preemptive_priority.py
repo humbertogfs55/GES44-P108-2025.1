@@ -1,4 +1,5 @@
-def priority_preemptive_metrics(arrival_rates, service_rate):
+from decimal import Decimal
+def priority_preemptive_metrics(arrival_rates, service_rate, s):
     """
     arrival_rates: lista com λ de cada classe de prioridade [λ1, λ2, ..., λn]
     service_rate: taxa de serviço μ
@@ -12,33 +13,22 @@ def priority_preemptive_metrics(arrival_rates, service_rate):
 
     results = {}
     for i, lam_i in enumerate(arrival_rates):
-        rho_i = sum(arrival_rates[j] / service_rate for j in range(i + 1))
-        rho_i_minus_1 = sum(arrival_rates[j] / service_rate for j in range(i)) if i > 0 else 0
-
-        Wq = rho_i_minus_1 / (service_rate * (1 - rho_i))
-        W = Wq + 1 / service_rate
-        Lq = lam_i * Wq
+        sum_lam_i = sum(arrival_rates[j] for j in range(i + 1))
+        sum_lam_i_minus_1 = sum(arrival_rates[j] for j in range(i)) if i > 0 else Decimal('0')
+        
+        denominator = (Decimal('1') - (sum_lam_i_minus_1/ service_rate * s) * (Decimal('1') - (sum_lam_i/ service_rate * s)))
+        W = (Decimal('1') / service_rate) / denominator
         L = lam_i * W
-
-        P0 = 1 - rho_total
-        P_occupied = 1 - P0
-        # Para fila preemptiva, a probabilidade de W > t e Wq > t podem ser aproximadas
-        import math
-        t = 1  # valor padrão para cálculo de probabilidades
-        P_W_greater_t = math.exp(-service_rate * (1 - rho_i) * t)
-        P_Wq_greater_t = math.exp(-service_rate * (1 - rho_i) * t)  # mesma aproximação
+        Lq = L - lam_i / service_rate
+        Wq = W - Decimal('1') / service_rate
 
         results[f"Classe {i + 1}"] = {
-            "Taxa de Chegada (λ)": lam_i,
-            "Taxa de Ocupação (ρ)": rho_total,
-            "Número Médio no Sistema (L)": round(L, 4),
-            "Número Médio na Fila (Lq)": round(Lq, 4),
-            "Tempo Médio no Sistema (W)": round(W, 4),
-            "Tempo Médio na Fila (Wq)": round(Wq, 4),
-            "Probabilidade de o Sistema Ocioso (P(n=0))": round(P0, 4),
-            "Probabilidade de o Sistema Ocupado (P(n>0))": round(P_occupied, 4),
-            "Probabilidade de W > t": round(P_W_greater_t, 4),
-            "Probabilidade de Wq > t": round(P_Wq_greater_t, 4),
+            "Taxa de Chegada (λ)": round(lam_i,5),
+            "Taxa de Ocupação (ρ)": round(rho_total,5),
+            "Número Médio no Sistema (L)": round(L, 5),
+            "Número Médio na Fila (Lq)": round(Lq, 5),
+            "Tempo Médio no Sistema (W)": round(W, 5),
+            "Tempo Médio na Fila (Wq)": round(Wq, 5)
         }
 
     return results
