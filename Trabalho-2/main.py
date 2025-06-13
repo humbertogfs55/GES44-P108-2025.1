@@ -31,7 +31,7 @@ def display_menu():
 """, title="[bold green]Menu Principal"))
 
 def print_metrics(metrics):
-    table = Table(title="[bold green]Resultados")
+    table = Table(title="\n[bold green]Resultados")
     table.add_column("Métrica", justify="left", style="cyan", no_wrap=True)
     table.add_column("Valor", justify="right", style="yellow")
 
