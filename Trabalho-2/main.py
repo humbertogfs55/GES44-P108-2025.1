@@ -5,6 +5,9 @@ from mmck_queue import mmc_k_queue_metrics
 from mm1n_queue import mm1n_queue_metrics
 from mmcn_queue import mmcn_queue_metrics
 from mg1_queue import mg1_queue_metrics
+from mm1_non_preemptive_priority import priority_non_preemptive_metrics
+from mm1_preemptive_priority import priority_preemptive_metrics
+from decimal import Decimal, getcontext
 
 from rich.console import Console
 from rich.table import Table
@@ -13,6 +16,8 @@ from rich.prompt import Prompt
 from rich.text import Text
 
 console = Console()
+
+from decimal import Decimal, getcontext
 
 def parse_float(value):
     return float(value.replace(',', '.'))
@@ -27,20 +32,23 @@ def display_menu():
 5. Modelo M/M/1/N (População finita)
 6. Modelo M/M/c/N (população finita)
 7. Modelo M/G/1
-8. Sair
+8. Modelo Prioridade Nao Preemptiva
+9. Modelo Prioridade Preemptiva
+10. Sair
 """, title="[bold green]Menu Principal"))
 
 def print_metrics(metrics):
-    table = Table(title="\n[bold green]Resultados")
-    table.add_column("Métrica", justify="left", style="cyan", no_wrap=True)
-    table.add_column("Valor", justify="right", style="yellow")
-
-    for metric, value in metrics.items():
-        if isinstance(value, list):
-            val = ", ".join(f"{v:.4f}" for v in value)
-        else:
+    table = Table(title="Resultados da Fila", title_style="bold green")
+    table.add_column("Métrica", style="cyan", no_wrap=True)
+    table.add_column("Valor", style="magenta")
+    
+    for key, value in metrics.items():
+        if isinstance(value, float) or isinstance(value, int):
             val = f"{value:.4f}"
-        table.add_row(metric, val)
+        else:
+            val = str(value)
+        table.add_row(key, val)
+
     console.print(table)
 
 def handle_mm1():
@@ -143,6 +151,52 @@ def handle_mg1():
     else:
         print_metrics(metrics)
 
+def handle_priority_non_preemptive():
+    console.print("\n[bold cyan]--- Modelo M/M/1 com Prioridade Não Preemptiva ---[/bold cyan]")
+
+    num_classes = int(Prompt.ask("Quantas classes de prioridade existem?"))
+    arrival_rates = []
+
+    for i in range(num_classes):
+        lam = parse_float(Prompt.ask(f"Digite a taxa de chegada (λ) da classe {i+1}"))
+        arrival_rates.append(lam)
+
+    service_rate = parse_float(Prompt.ask("Digite a taxa de serviço (μ)"))
+    t = parse_float(Prompt.ask("Digite o valor de t para calcular P(W > t) e P(Wq > t)", default="1.0"))
+
+    metrics = priority_non_preemptive_metrics(arrival_rates, service_rate, t)
+
+    if "Erro" in metrics:
+        console.print(f"[bold red]{metrics['Erro']}")
+    else:
+        for classe, classe_metrics in metrics.items():
+            console.print(f"\n[bold yellow]{classe}[/bold yellow]")
+            print_metrics(classe_metrics)
+
+def handle_priority_preemptive():
+    console.print("\n[bold cyan]--- Modelo M/M/1 com Prioridade Preemptiva ---[/bold cyan]")
+
+    num_classes = int(Prompt.ask("Quantas classes de prioridade existem?"))
+    arrival_rates = []
+
+    for i in range(num_classes):
+        lam_str = Prompt.ask(f"Digite a taxa de chegada (λ) da classe {i+1}")
+        lam = Decimal(lam_str)
+        arrival_rates.append(lam)
+
+    service_rate = Decimal(Prompt.ask("Digite a taxa de serviço (μ)"))
+    s = Decimal(Prompt.ask("Digite o numero de canais"))
+
+    metrics = priority_preemptive_metrics(arrival_rates, service_rate, s)
+
+    if "Erro" in metrics:
+        console.print(f"[bold red]{metrics['Erro']}")
+    else:
+        for classe, classe_metrics in metrics.items():
+            console.print(f"\n[bold yellow]{classe}[/bold yellow]")
+            print_metrics(classe_metrics)
+
+
 def main():
     while True:
         display_menu()
@@ -162,6 +216,10 @@ def main():
         elif choice == "7":
             handle_mg1()
         elif choice == "8":
+            handle_priority_non_preemptive()
+        elif choice == "9":
+            handle_priority_preemptive()
+        elif choice == "10":
             console.print("[bold green]Saindo do programa. Até logo!")
             break
         else:
