@@ -193,9 +193,8 @@ def handle_priority_preemptive():
         arrival_rates.append(lam)
 
     service_rate = Decimal(Prompt.ask("Digite a taxa de serviço (μ)"))
-    s = Decimal(Prompt.ask("Digite o numero de canais"))
 
-    metrics = priority_preemptive_metrics(arrival_rates, service_rate, s)
+    metrics = priority_preemptive_metrics(arrival_rates, service_rate)
 
     if "Erro" in metrics:
         console.print(f"[bold red]{metrics['Erro']}")
