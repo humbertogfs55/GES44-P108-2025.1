@@ -1,5 +1,5 @@
 from decimal import Decimal, getcontext
-def priority_non_preemptive_metrics(arrival_rates, service_rate):
+def mm1_priority_non_preemptive_metrics(arrival_rates, service_rate):
     """
     arrival_rates: lista com λ de cada classe de prioridade [λ1, λ2, ..., λn]
     service_rate: taxa de serviço μ 
