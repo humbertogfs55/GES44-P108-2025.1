@@ -32,8 +32,8 @@ def display_menu():
 5. Modelo M/M/1/N (População finita)
 6. Modelo M/M/c/N (população finita)
 7. Modelo M/G/1
-8. Modelo Prioridade Nao Preemptiva
-9. Modelo Prioridade Preemptiva
+8. Modelo M/M/1 Prioridade Nao Preemptiva
+9. Modelo M/M/1 Prioridade Preemptiva
 10. Sair
 """, title="[bold green]Menu Principal"))
 
@@ -51,6 +51,7 @@ def print_metrics(metrics):
 
     console.print(table)
 
+
 def handle_mm1():
     console.print("\n[bold cyan]--- Modelo M/M/1 ---[/bold cyan]")
     arrival_rate = parse_float(Prompt.ask("Digite a taxa de chegada (λ)"))
@@ -63,6 +64,7 @@ def handle_mm1():
         console.print(f"[bold red]{metrics['Erro']}")
     else:
         print_metrics(metrics)
+
 
 def handle_mmc():
     console.print("\n[bold cyan]--- Modelo M/M/c ---[/bold cyan]")
@@ -79,6 +81,7 @@ def handle_mmc():
     else:
         print_metrics(metrics)
 
+
 def handle_mm1k():
     console.print("\n[bold cyan]--- Modelo M/M/1/K ---[/bold cyan]")
     arrival_rate = parse_float(Prompt.ask("Digite a taxa de chegada (λ)"))
@@ -93,6 +96,7 @@ def handle_mm1k():
         console.print(f"[bold red]{metrics['Erro']}")
     else:
         print_metrics(metrics)
+
 
 def handle_mmck():
     console.print("\n[bold cyan]--- Modelo M/M/c/K ---[/bold cyan]")
@@ -110,6 +114,7 @@ def handle_mmck():
     else:
         print_metrics(metrics)
 
+
 def handle_mm1n():
     console.print("\n[bold cyan]--- Modelo M/M/1/N (população finita) ---[/bold cyan]")
     arrival_rate = parse_float(Prompt.ask("Digite a taxa de chegada (λ)"))
@@ -123,6 +128,7 @@ def handle_mm1n():
         console.print(f"[bold red]{metrics['Erro']}")
     else:
         print_metrics(metrics)
+
 
 def handle_mmcn():
     console.print("\n[bold cyan]--- Modelo M/M/s/N (população finita) ---[/bold cyan]")
@@ -139,6 +145,7 @@ def handle_mmcn():
     else:
         print_metrics(metrics)
 
+
 def handle_mg1():
     console.print("\n[bold cyan]--- Modelo M/G/1 ---[/bold cyan]")
     arrival_rate = parse_float(Prompt.ask("Digite a taxa de chegada (λ)"))
@@ -151,6 +158,7 @@ def handle_mg1():
     else:
         print_metrics(metrics)
 
+
 def handle_priority_non_preemptive():
     console.print("\n[bold cyan]--- Modelo M/M/1 com Prioridade Não Preemptiva ---[/bold cyan]")
 
@@ -162,9 +170,8 @@ def handle_priority_non_preemptive():
         arrival_rates.append(lam)
 
     service_rate = parse_float(Prompt.ask("Digite a taxa de serviço (μ)"))
-    t = parse_float(Prompt.ask("Digite o valor de t para calcular P(W > t) e P(Wq > t)", default="1.0"))
 
-    metrics = priority_non_preemptive_metrics(arrival_rates, service_rate, t)
+    metrics = priority_non_preemptive_metrics(arrival_rates, service_rate)
 
     if "Erro" in metrics:
         console.print(f"[bold red]{metrics['Erro']}")
@@ -172,6 +179,7 @@ def handle_priority_non_preemptive():
         for classe, classe_metrics in metrics.items():
             console.print(f"\n[bold yellow]{classe}[/bold yellow]")
             print_metrics(classe_metrics)
+
 
 def handle_priority_preemptive():
     console.print("\n[bold cyan]--- Modelo M/M/1 com Prioridade Preemptiva ---[/bold cyan]")
@@ -196,7 +204,7 @@ def handle_priority_preemptive():
             console.print(f"\n[bold yellow]{classe}[/bold yellow]")
             print_metrics(classe_metrics)
 
-
+            
 def main():
     while True:
         display_menu()
