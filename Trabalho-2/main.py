@@ -7,8 +7,10 @@ from mmcn_queue import mmcn_queue_metrics
 from mg1_queue import mg1_queue_metrics
 from mm1_non_preemptive_priority import priority_non_preemptive_metrics
 from mm1_preemptive_priority import priority_preemptive_metrics
-from decimal import Decimal, getcontext
+from mg1_non_preemptive_priority import mg1_non_preemptive_priority_metrics
+from mg1_preemptive_priority import mg1_preemptive_priority_metrics
 
+from decimal import Decimal, getcontext
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -34,7 +36,9 @@ def display_menu():
 7. Modelo M/G/1
 8. Modelo M/M/1 Prioridade Nao Preemptiva
 9. Modelo M/M/1 Prioridade Preemptiva
-10. Sair
+10. Modelo M/G/1 Prioridade Nao Preemptiva
+11. Modelo M/G/1 Prioridade Preemptiva
+12. Sair
 """, title="[bold green]Menu Principal"))
 
 def print_metrics(metrics):
@@ -203,11 +207,65 @@ def handle_priority_preemptive():
             console.print(f"\n[bold yellow]{classe}[/bold yellow]")
             print_metrics(classe_metrics)
 
+def handle_mg1_non_preemptive_priority():
+    console.print("\n[bold cyan]--- Modelo M/G/1 com Prioridade Não-Preemptiva (SPT) ---[/bold cyan]")
+
+    num_classes = int(Prompt.ask("Quantas classes de prioridade existem?"))
+    arrival_rates = []
+    service_times = []
+    service_variances = []
+
+    for i in range(num_classes):
+        console.print(f"\n[bold]--- Classe {i+1} ---[/bold]")
+        lam = Decimal(Prompt.ask(f"Digite a taxa de chegada λ da classe {i+1} (unidades por hora)"))
+        es = Decimal(Prompt.ask(f"Digite o tempo médio de serviço E[S] da classe {i+1} (em horas)"))
+        var_s = Decimal(Prompt.ask(f"Digite a variância do tempo de serviço Var[S] da classe {i+1} (em horas²)"))
+
+        arrival_rates.append(lam)
+        service_times.append(es)
+        service_variances.append(var_s)
+
+    metrics = mg1_non_preemptive_priority_metrics(arrival_rates, service_times, service_variances)
+
+    if "Erro" in metrics:
+        console.print(f"[bold red]{metrics['Erro']}")
+    else:
+        for classe, classe_metrics in metrics.items():
+            console.print(f"\n[bold yellow]{classe}[/bold yellow]")
+            print_metrics(classe_metrics)
+
+def handle_mg1_preemptive_priority():
+    console.print("\n[bold cyan]--- Modelo M/G/1 com Prioridade Preemptiva (SPT) ---[/bold cyan]")
+
+    num_classes = int(Prompt.ask("Quantas classes de prioridade existem?"))
+    arrival_rates = []
+    service_times = []
+    service_variances = []
+
+    for i in range(num_classes):
+        console.print(f"\n[bold]--- Classe {i+1} ---[/bold]")
+        lam = Decimal(Prompt.ask(f"Digite a taxa de chegada λ da classe {i+1} (unidades por hora)"))
+        es = Decimal(Prompt.ask(f"Digite o tempo médio de serviço E[S] da classe {i+1} (em horas)"))
+        var_s = Decimal(Prompt.ask(f"Digite a variância do tempo de serviço Var[S] da classe {i+1} (em horas²)"))
+
+        arrival_rates.append(lam)
+        service_times.append(es)
+        service_variances.append(var_s)
+
+    metrics = mg1_preemptive_priority_metrics(arrival_rates, service_times, service_variances)
+
+    if "Erro" in metrics:
+        console.print(f"[bold red]{metrics['Erro']}")
+    else:
+        for classe, classe_metrics in metrics.items():
+            console.print(f"\n[bold yellow]{classe}[/bold yellow]")
+            print_metrics(classe_metrics)
+
             
 def main():
     while True:
         display_menu()
-        choice = Prompt.ask("Escolha uma opção (1-8)")
+        choice = Prompt.ask("Escolha uma opção (1-12)")
         if choice == "1":
             handle_mm1()
         elif choice == "2":
@@ -227,6 +285,10 @@ def main():
         elif choice == "9":
             handle_priority_preemptive()
         elif choice == "10":
+            handle_mg1_non_preemptive_priority()
+        elif choice == "11":
+            handle_mg1_preemptive_priority()
+        elif choice == "12":
             console.print("[bold green]Saindo do programa. Até logo!")
             break
         else:
