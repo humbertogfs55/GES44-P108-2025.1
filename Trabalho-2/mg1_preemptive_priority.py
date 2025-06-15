@@ -63,3 +63,31 @@ def mg1_preemptive_priority_metrics(arrival_rates, service_times, service_varian
         }
 
     return results
+
+"""
+
+Modelo MG1 com interrupção
+    
+Exemplo 2)
+    
+classes: 2
+
+λ1: 10
+E[S] da classe 1: 0.05
+variância da classe 1: 0.0005556
+
+λ2: 5
+E[S] da classe 2: 0.06667
+variância da classe 2: 0.0005556
+    
+Wq1 = 0,06
+w1 = 0,11
+l1 = 1,1
+lq1 = 0,6
+    
+Wq2 = 0,33
+w2 = 0,40
+l2 =  2  
+lq2 = 1,67
+
+"""
