@@ -90,7 +90,7 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
         "Tempo Médio de Serviço (1/μ)": service_time,
         "Número Médio de Servidores Ocupados": busy_servers,
         "Custo Total (CT)": CT,
-        "Probabilidade de existir n clientes (Pn)": Pn,
+        "Probabilidade de existir n clientes (Pn)": [round(p, 4) for p in Pn],
     }
 
 

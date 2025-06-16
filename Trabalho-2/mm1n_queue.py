@@ -48,14 +48,14 @@ def mm1n_queue_metrics(arrival_rate, service_rate, population_size, waiting_cost
     CT = waiting_cost * L + service_cost * 1 
 
     return {
-        "\nProbabilidades Normalizadas": probabilities,
-        "Número Médio no Sistema (L)": L,
+        "\nNúmero Médio no Sistema (L)": L,
         "Número Médio na Fila (Lq)": Lq,
         "Taxa de Processamento (T)": lambda_eff,
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": Wq,
         "Probabilidade de Inatividade (P0)": probabilities[0],
-        "Custo Total (CT)": CT
+        "Custo Total (CT)": CT,
+        "Probabilidades Normalizadas": [round(p, 4) for p in probabilities]
     }
 
 '''

@@ -53,7 +53,7 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
     W_q = L_q / lambda_eff if lambda_eff > 0 else 0
     
     # Probabilidade de existir n clientes no sistema (Pn)
-    Pn = [P0 * (rho**num_clients) for n in range(max_capacity + 1)]
+    Pn = [round(P0 * (rho**num_clients),4)for num_clients in range(max_capacity + 1)]
     
     # Custo Total (CT) 
     CT = waiting_cost * L + service_cost * 1
@@ -68,7 +68,7 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": W_q,
         "Custo Total (CT)": CT,
-        "Probabilidade de existir n clientes (Pn)": Pn,
+        "Probabilidade de existir n clientes (Pn)": Pn
     }
 
 '''
