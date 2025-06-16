@@ -19,13 +19,13 @@ def mg1_queue_metrics(arrival_rate, service_rate, sigma_squared):
     P0 = 1 - rho
 
     # Número médio de clientes na fila (Lq)
-    Lq = (arrival_rate**2 * sigma_squared + rho**2) / (2 * (1 - rho))
+    Lq = ((arrival_rate**2 * sigma_squared) + rho**2) / (2 * (1 - rho))
 
     # Tempo médio de espera na fila (Wq)
     Wq = Lq / arrival_rate
 
     # Tempo médio total no sistema (W)
-    W = Wq + 1 / service_rate
+    W = Wq + (1 / service_rate)
 
     # Número médio total de clientes no sistema (L)
     L = rho + Lq
@@ -52,16 +52,18 @@ variancia = (1/mu^2) = 1/6^2 = 1/36 = 0,02778
 rho = lambda / mu = 4 / 6 = 0,6667
 P0 = 1 - rho = 1 - 0,6667 = 0,3333
 Lq = 1,333 carros
-L = 0,667 carros
+L = 2 carros
 Wq = 0,333 horas
-W = 0,167 horas
+W = 0,5 horas
 
 -----------------------------------
 Exemplo 2)
 
-lambda = 25 clientes/hora
-tempo de servico = 90 segundos = 1,5 minutos = 0,025 horas
+lambda = 25 clientes/hora = 25
 mu = 1/0,025 = 40 clientes/hora
+
+tempo de servico = 90 segundos = 1,5 minutos = 0,025 horas
+variancia = (90/3600)^2 = 0,025^2 = 0,000625
 
 rho = lambda/mu = 25/40 = 0,625 
 P0 = 1 - rho = 1 - 0,625 = 0,375
