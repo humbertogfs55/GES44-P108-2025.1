@@ -52,23 +52,21 @@ Digite a taxa de chegada (λ) da classe 1: 0.2
 Digite a taxa de chegada (λ) da classe 2: 0.6
 Digite a taxa de chegada (λ) da classe 3: 1.2
 Digite a taxa de serviço (μ): 3
-Digite o numero de canais: 1
 
 tem que dar:
 
-w1 = 0,3571
-wq1 = 0,0238
 l1 = 0,07142
 lq1 = 0,004753 
+w1 = 0,3571
+wq1 = 0,0238
 
-w2 = 0,4870
-wq2 = 0,1537
 l2 = 0,3896
 lq2 = 0,1229 
+w2 = 0,4870
+wq2 = 0,1537
 
-w3 = 1,3636
-wq3 = 1,0303
 l3 = 2,7272
 lq3 = 2,0605 
-
+w3 = 1,3636
+wq3 = 1,0303
 '''

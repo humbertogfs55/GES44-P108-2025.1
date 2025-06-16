@@ -79,7 +79,7 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
         "Tempo Médio no Sistema (W)": W,
         "Tempo Médio na Fila (Wq)": W_q,
         "Custo Total (CT)": CT,
-        "Probabilidades Normalizadas": probabilities
+        "Probabilidades Normalizadas": [round(p, 4) for p in probabilities]
     }
 
 

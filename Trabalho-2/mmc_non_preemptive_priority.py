@@ -84,4 +84,24 @@ w3 = 0,38141
 wq3 = 0,04808
 lq3 = 0,05769
 l3 = 0,45769
+
+--------------
+
+Exemplo 3)
+
+Quantas classes de prioridade existem?: 2
+Digite a taxa de chegada (λ) da classe 1: 10
+Digite a taxa de chegada (λ) da classe 2: 20
+Digite a taxa de serviço (μ): 7.5
+Digite o número de servidores (c): 5
+
+w1 =  0.1535
+wq1 = 0.0201
+lq1 = 0.2015
+l1 = 1.5348
+
+w2 = 0.2341
+wq2 = 0.1007
+lq2 = 2.0150
+l2 = 4.6816 
 """
