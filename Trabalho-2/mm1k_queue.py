@@ -72,41 +72,20 @@ def mm1k_queue_metrics(arrival_rate, service_rate, max_capacity, waiting_cost, s
     }
 
 '''
-Modelo M/M/1/K
+Esse código calcula métricas de uma fila M/M/1/K, com um servidor, chegadas e atendimentos aleatórios, e capacidade máxima K.
 
-Exemplo 1)
+Ele recebe a taxa de chegada (λ), a taxa de atendimento (μ), a capacidade máxima (K), custos de espera e serviço,
+e o número de clientes (n) para calcular probabilidades.
 
-lambda = 0,3 clientes por minuto
-mi = 0,5 clientes por minuto
-K = 2
-s = 1
+Retorna:
 
-a) 
-Po = (1-0,3*2)/((1-0,3*2)^2+1)
-Po = 0,5102
+- Ocupação do sistema (ρ),
+- Probabilidade do sistema vazio (P0),
+- Probabilidade de bloqueio (P_block),
+- Taxa efetiva de chegada (λ_eff),
+- Médias de clientes e tempos na fila/sistema (L, Lq, W, Wq),
+- Custo total estimado,
+- Probabilidade de existir n clientes no sistema (P_n).
 
-b)
-L = (0,3*2/(1-0,3*2)) - (((2+1)*0,3*2^3)/(1-0,3*2^3))
-L = 0,6735 clientes
-
-c)
-Lq = 0,6735 - (1 - 0,5102)
-Lq = 0,1837 clientes
-
-d)
-P2 = ((1-0,3*2)/(1-0,3*2^3)) * 0,3*2^2
-P2 = 0,1837
-
-e) 
-lambda = 0,3 * (1 - 0,1837)
-lambda = 0,2449 (tempo de espera na fila)
-
-Wq = Lq/lambda
-Wq = 0,1837/0,,2449
-Wq = 0,75 minutos
-
-f)
-W = L/ lambda
-W = 0,6735/0,2449
-W = 2,75 minutos
+Se as taxas forem inválidas (≤ 0), retorna erro.
 '''

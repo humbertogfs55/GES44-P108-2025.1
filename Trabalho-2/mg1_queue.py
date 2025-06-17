@@ -41,49 +41,16 @@ def mg1_queue_metrics(arrival_rate, service_rate, sigma_squared):
 
 
 '''
-Modelo M/G/1:
+Esse código calcula métricas de uma fila M/G/1, onde a chegada é aleatória (M),
+o tempo de serviço tem distribuição geral (G), e há um servidor (1).
 
-Exemplo 1)
+Ele recebe a taxa de chegada (λ), taxa de atendimento (μ) e a variância do tempo de serviço (σ²).
 
-lambda = 4 carros/hora
-mu = 60/10 = 6 carros/hora
-variancia = (1/mu^2) = 1/6^2 = 1/36 = 0,02778
+Retorna:
 
-rho = lambda / mu = 4 / 6 = 0,6667
-P0 = 1 - rho = 1 - 0,6667 = 0,3333
-Lq = 1,333 carros
-L = 2 carros
-Wq = 0,333 horas
-W = 0,5 horas
+- Taxa de ocupação (ρ),
+- Probabilidade de não esperar (P0),
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq).
 
------------------------------------
-Exemplo 2)
-
-lambda = 25 clientes/hora = 25
-mu = 1/0,025 = 40 clientes/hora
-
-tempo de servico = 90 segundos = 1,5 minutos = 0,025 horas
-variancia = (90/3600)^2 = 0,025^2 = 0,000625
-
-rho = lambda/mu = 25/40 = 0,625 
-P0 = 1 - rho = 1 - 0,625 = 0,375
-L = 1,667 clientes
-Lq = 1,042 clientes
-W = 0,067 horas
-Wq = 0,042 horas
-
-
-Para tempo fixo de serviço:
-
-lambda = 25 clientes/hora
-tempo de servico = 90 segundos = 1,5 minutos = 0,025 horas
-mu = 1/0,025 = 40 clientes/hora
-variancia = 0 
-
-rho = lambda/mu = 25/40 = 0,625 
-P0 = 1 - rho = 1 - 0,625 = 0,375
-L = 1,146 clientes
-Lq = 0,521 clientes
-W = 0,046 horas = 2,77 minutos
-Wq = 0,021 horas = 1,25 minutos
+Se ρ ≥ 1, o sistema é instável e ele avisa isso.
 '''

@@ -45,28 +45,19 @@ def mm1_priority_preemptive_metrics(arrival_rates, service_rate):
 '''
 Modelo M/M/1 com interrupção
 
-Exemplo 1)
+Esse código calcula métricas de uma fila M/M/1 com diferentes classes de prioridade,
+onde classes mais prioritárias podem interromper o atendimento das menos prioritárias (preempção).
 
-Quantas classes de prioridade existem?: 3
-Digite a taxa de chegada (λ) da classe 1: 0.2
-Digite a taxa de chegada (λ) da classe 2: 0.6
-Digite a taxa de chegada (λ) da classe 3: 1.2
-Digite a taxa de serviço (μ): 3
+Ele recebe:
+- A taxa de serviço (μ),
+- As taxas de chegada (λ) de cada classe, em ordem de prioridade (da mais alta para a mais baixa).
 
-tem que dar:
+Retorna, para cada classe:
 
-l1 = 0,07142
-lq1 = 0,004753 
-w1 = 0,3571
-wq1 = 0,0238
+- Taxa de chegada (λ),
+- Ocupação total do sistema (ρ),
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq).
 
-l2 = 0,3896
-lq2 = 0,1229 
-w2 = 0,4870
-wq2 = 0,1537
+Se a soma das chegadas for maior ou igual à capacidade de atendimento (λ_total ≥ μ), o código informa que o sistema é instável.
 
-l3 = 2,7272
-lq3 = 2,0605 
-w3 = 1,3636
-wq3 = 1,0303
 '''

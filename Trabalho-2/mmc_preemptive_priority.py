@@ -56,30 +56,16 @@ def mmc_priority_preemptive_metrics(arrival_rates, service_rate, s):
 """
 Modelo MMC com interrupção:
 
-# Exemplo 1)
+Esse código calcula métricas para filas com múltiplos servidores (c) e várias classes de prioridade, onde classes com mais prioridade interrompem o atendimento de classes inferiores.
 
-Quantas classes de prioridade existem?: 3
-Digite a taxa de chegada (λ) da classe 1: 0.2
-Digite a taxa de chegada (λ) da classe 2: 0.6
-Digite a taxa de chegada (λ) da classe 3: 1.2
-Digite a taxa de serviço (μ): 3
-Digite o número de servidores (c): 2
+Ele recebe:
+- Taxas de chegada (λ) por classe,
+- Taxa de serviço (μ),
+- Número de servidores (c).
 
-p0 = 0,9355
+Para cada classe, retorna:
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq),
+- Taxa de ocupação (ρ) da classe.
 
-l1 = 0,06674
-lq1 = 0,00007
-w1 = 0,33370
-wq1 = 0,00037
-
-l2 = 0,29526
-lq2 = 0,0286
-w2 = 0,36907
-wq2 = 0,03573
-
-l3 = 0,79751
-lq3 = 0,13084
-w3 = 0,39875
-wq3 = 0,06542
-
+Se a soma das chegadas for maior ou igual à capacidade do sistema (λ_total ≥ c * μ), ele indica que o sistema é instável.
 """

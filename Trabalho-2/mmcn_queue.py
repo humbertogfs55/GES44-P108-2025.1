@@ -84,33 +84,18 @@ def mmcn_queue_metrics(arrival_rate, service_rate, num_servers, population_size,
 
 
 '''
-Modelo M/M/s com população finita
+Esse código calcula métricas de uma fila M/M/s/N, com vários servidores e população limitada (N clientes no total).
 
-Exemplo 1)
+Ele recebe a taxa de chegada (λ), taxa de atendimento (μ), número de servidores (s), tamanho da população (N), custo de espera e custo de atendimento.
 
-lambda = 0,01/h
-mi = 0,125/h
-s = 2
-N = 10
-CE = 100
-CA = 20
+Retorna:
 
-L = 0,8112 máquinas
+- Taxa de ocupação (ρ),
+- Probabilidade do sistema vazio (P0),
+- Taxa efetiva de chegada (clientes que entram de fato),
+- Médias de clientes e tempos na fila/sistema (L, Lq, W, Wq),
+- Custo total estimado,
+- Probabilidades normalizadas de cada estado.
 
-Lq = 0,0761 máquinas
-
-Wq = 0,8282 horas
-
-W = 8,8282 horas
-
-Po = 0,4517
-
-CT2 = 100 * 0,8112 + 20 * 2
-CT2 = 121,12
-
-CT3 = 100 * 0,7476 + 20 * 3
-CT3 = 134,76
-
-CT4 = 100 * 0,7413 + 20 * 4
-CT4 = 154,13
+Esse modelo considera que o sistema tem capacidade limitada, então há chance de bloqueio se estiver cheio.
 '''

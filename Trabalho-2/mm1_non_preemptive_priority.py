@@ -56,28 +56,17 @@ def mm1_priority_non_preemptive_metrics(arrival_rates, service_rate):
 '''
 Modelo M/M/1 sem interrupção
 
-Exemplo 1)
+Esse código calcula métricas para filas com várias classes de prioridade, onde quem está sendo atendido nunca é interrompido,
+mesmo se chegar alguém com prioridade maior.
 
-Quantas classes de prioridade existem?: 3
-Digite a taxa de chegada (λ) da classe 1: 0.2
-Digite a taxa de chegada (λ) da classe 2: 0.6
-Digite a taxa de chegada (λ) da classe 3: 1.2
-Digite a taxa de serviço (μ): 3
+Ele recebe:
+- As taxas de chegada (λ) de cada classe (em ordem de prioridade),
+- A taxa de atendimento (μ).
 
-tem que dar:
+Retorna, para cada classe:
 
-wq1 = 0,23809
-w1 = 0,5714
-lq1 = 0,047619
-l1 = 0,11428
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq).
+- Taxa de chegada (λ).
 
-wq2 = 0,32467
-w2 = 0,65800
-lq2 = 0,19480 
-l2 = 0,39480
-
-wq3 = 0,90909
-w3 = 1,24242
-lq3 = 1,0909 
-l3 = 1,4909
+Se a soma das taxas de chegada for maior ou igual à taxa de serviço, o sistema é instável e o código avisa.
 '''

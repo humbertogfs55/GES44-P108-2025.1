@@ -95,43 +95,22 @@ def mmc_k_queue_metrics(arrival_rate, service_rate, num_servers, max_capacity, w
 
 
 '''
-Modelo M/M/s>1/K
+Esse código calcula métricas de uma fila M/M/s/K, com vários servidores, capacidade máxima limitada (K),
+e chegadas e atendimentos aleatórios.
 
-Exemplo 1)
+Ele recebe a taxa de chegada (λ), taxa de atendimento (μ), número de servidores (s), capacidade máxima (K),
+custos de espera e serviço, e opcionalmente o número de clientes para calcular probabilidades.
 
-lambda = 5/h  
-mi = 7/h
-K = 5
+Retorna:
 
-Para s=1)
-Po = 0,3295
-W = 0,3369 horas
-Wq = 0,194 horas
-L = 1,5811 clientes
-Lq = 0,9106 clientes
-P5 = 0,06126 
+- Taxa de ocupação por servidor (ρ),
+- Probabilidade do sistema vazio (P0),
+- Probabilidade de bloqueio (P_K),
+- Taxa efetiva de chegada (λ_eff),
+- Médias de clientes e tempos na fila/sistema (L, Lq, W, Wq),
+- Número médio de servidores ocupados,
+- Custo total estimado,
+- Probabilidade de ter n clientes no sistema (P_n).
 
-Para s=2)
-Po = 0,3751
-W = 0,1611 horas
-Wq = 0,01826 horas
-L =  0,8011 clientes
-Lq =  0,0908 clientes
-P5 = 0,0055
-
-------------------------------------
-Exemplo 2 - Modelo M/M/s>1/K)
-
-lambda = 1 carro/minuto
-mi = 1/6 = 0.16666 carro/minuto
-s = 3 boxes
-K = 7 carros
-
-rho = 2
-P0 = 0.00088
-L = 6.0631
-Lq = 3,0920
-W = 12,2442
-Wq = 6,2439
-P7 = 0,5048 = (60 * 0,5048) = 30,29 carro/hora
+Se algum parâmetro for zero ou negativo, retorna erro.
 '''

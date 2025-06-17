@@ -79,26 +79,22 @@ def mg1_non_preemptive_priority_metrics(arrival_rates, service_times, service_va
 
 """
 Modelo MG1 sem interrupção:
- 
-Exemplo:
 
-classes: 2
+Esse código calcula métricas para fila M/G/1 com várias classes de prioridade, onde ninguém é interrompido,
+e quem tem menor tempo médio de serviço (E[S]) tem maior prioridade (regra SPT).
 
-λ1: 10
-E[S] da classe 1: 0.05
-variância da classe 1: 0.0005556
+Ele recebe:
+- Taxas de chegada (λ),
+- Tempos médios de serviço (E[S]),
+- Variâncias dos tempos de serviço (Var[S]),
+para cada classe.
 
-λ2: 5
-E[S] da classe 2: 0.06667
-variância da classe 2: 0.0005556
- 
-l1 = 1,0555
-lq1 = 0,5555
-w1 = 0,1055
-Wq1 = 0,0555
+Retorna, por classe:
 
-l2 = 2,000
-lq2 = 1,6669
-w2 = 0,4000
-Wq2 = 0,3333
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq),
+- Utilização do servidor (ρ),
+- Dados básicos da classe (λ, E[S], Var[S]).
+
+Se a soma das utilizações for ≥ 1, o sistema é instável e o código informa isso.
+
 """

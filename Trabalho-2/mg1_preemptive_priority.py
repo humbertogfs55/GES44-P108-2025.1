@@ -66,27 +66,22 @@ def mg1_preemptive_priority_metrics(arrival_rates, service_times, service_varian
 
 """
 
-Modelo MG1 com interrupção
-    
-Exemplo 2)
-    
-classes: 2
+Modelo MG1 com interrupção:
 
-λ1: 10
-E[S] da classe 1: 0.05
-variância da classe 1: 0.0005556
+Esse código calcula métricas para  fila M/G/1 com várias classes de prioridade, onde uma classe mais prioritária pode interromper o atendimento de uma menos prioritária.
 
-λ2: 5
-E[S] da classe 2: 0.06667
-variância da classe 2: 0.0005556
- 
-l1 = 0,855
-lq1 = 0,355
-w1 = 0,0855
-Wq1 = 0,0355
+Ele recebe:
+- As taxas de chegada (λ),
+- Os tempos médios de serviço (E[S]),
+- As variâncias dos tempos de serviço (Var[S]),
+para cada classe, em ordem de prioridade.
 
-l2 = 1,4806
-lq2 = 1,814
-w2 = 0,3628
-Wq2 = 0,2962 
+Retorna, por classe:
+
+- Médias de clientes e tempos na fila e no sistema (L, Lq, W, Wq),
+- Utilização do servidor (ρ),
+- Dados básicos da classe (λ, E[S], Var[S]).
+
+Se a soma das utilizações for ≥ 1, o código indica que o sistema é instável.
+
 """
