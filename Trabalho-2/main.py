@@ -66,8 +66,9 @@ def handle_mm1():
     service_rate = parse_float(Prompt.ask("Digite a taxa de serviço (μ)"))
     waiting_time_w = parse_float(Prompt.ask("Digite o tempo t1 para cálculo de P(W > t)"))
     waiting_time_wq = parse_float(Prompt.ask("Digite o tempo t2 para cálculo de P(Wq > t)"))
-
-    metrics = mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq)
+    num_clients = int(Prompt.ask("Digite o número de clientes no sistema (N)"))
+    
+    metrics = mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq, num_clients)
     if "Erro" in metrics:
         console.print(f"[bold red]{metrics['Erro']}")
     else:
