@@ -1,7 +1,7 @@
 import math
 
 
-def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq):
+def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_wq, num_clients):
     """
     Calcular as métricas chave para uma fila M/M/1.
 
@@ -58,7 +58,9 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_w
 
     # Probabilidade de W_q > t (P(W_q > t))
     P_Wq_greater_t = rho * math.exp(-service_rate * (1 - rho) * waiting_time_wq)
-
+    
+    # Probabilidade de n clientes na fila (Pn)
+    Pn = 1 - rho**(num_clients + 1)
 
     results = {
         "Probabilidade de Não Esperar (P_0)": P_0,
@@ -71,6 +73,7 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_w
         "Probabilidade de o Sistema Ocupado (P(n>0))": P_occupied,
         "Probabilidade de W > t": P_W_greater_t,
         "Probabilidade de Wq > t": P_Wq_greater_t,
+        "Probabilidade de n clientes na fila": Pn
     }
 
     return results
