@@ -52,13 +52,16 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers, waiting_time_w, w
 
     # Probabilidade de W > t (P(W > t))
     exp_term_w = math.exp(-service_rate * waiting_time_w)
-    bracket_numerator = 1 - \
-        math.exp(-service_rate * waiting_time_w *
-                 (num_servers - 1 - (arrival_rate/service_rate)))
-    bracket_denominator = num_servers - 1 - (arrival_rate/service_rate)
+    bracket_numerator = 1 - math.exp(-service_rate * waiting_time_w * (num_servers - 1 - (arrival_rate / service_rate)))
+    bracket_denominator = num_servers - 1 - (arrival_rate / service_rate)
 
-    P_W_greater_t = exp_term_w * (1 + (P0 * ((arrival_rate/service_rate) ** num_servers) / (math.factorial(num_servers) * (1 - rho))) *
-                                  (bracket_numerator / bracket_denominator))
+    if bracket_denominator == 0:
+        P_W_greater_t = exp_term_w
+    else:
+        P_W_greater_t = exp_term_w * (1 + (P0 * ((arrival_rate / service_rate) ** num_servers) /
+                                        (math.factorial(num_servers) * (1 - rho))) *
+                                    (bracket_numerator / bracket_denominator))
+
 
     # Calcular P(Wq = 0) = soma das probabilidades de 0 até s-1 clientes
     P_Wq_equals_0 = sum(((arrival_rate/service_rate) ** n /
@@ -79,6 +82,7 @@ def mmc_queue_metrics(arrival_rate, service_rate, num_servers, waiting_time_w, w
     return {
         "\nTaxa de Ocupação (ρ)": rho,
         "Probabilidade de Fila (P_queue)": P_queue,
+        "Probabilidade do sistema estar vazio (P0)": P0,
         "Número Médio na Fila (Lq)": L_q,
         "Número Médio no Sistema (L)": L,
         "Tempo Médio na Fila (Wq)": W_q,
