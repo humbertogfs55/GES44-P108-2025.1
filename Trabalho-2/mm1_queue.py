@@ -93,4 +93,8 @@ Retorna:
 - Probabilidades de esperar ou não na fila/sistema
 
 Se λ ≥ μ, o sistema é instável e ele avisa isso.
+
+Wq = λ/μ(μ-λ)
+Lq = λ * Wq
+bskr = -b +- sqrt(b**2 - 4ac)/2a
 '''
