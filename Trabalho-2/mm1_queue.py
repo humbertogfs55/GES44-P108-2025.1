@@ -60,7 +60,9 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_w
     P_Wq_greater_t = rho * math.exp(-service_rate * (1 - rho) * waiting_time_wq)
     
     # Probabilidade de n clientes na fila (Pn)
-    Pn = 1 - rho**(num_clients + 1)
+    Pn_quere = 1 - rho**(num_clients + 1)
+    
+    Pn_system = (rho**num_clients) * (1-rho) 
 
     results = {
         "Probabilidade de Não Esperar (P_0)": P_0,
@@ -73,7 +75,8 @@ def mm1_queue_metrics(arrival_rate, service_rate, waiting_time_w, waiting_time_w
         "Probabilidade de o Sistema Ocupado (P(n>0))": P_occupied,
         "Probabilidade de W > t": P_W_greater_t,
         "Probabilidade de Wq > t": P_Wq_greater_t,
-        "Probabilidade de n clientes na fila": Pn
+        "Probabilidade de n clientes na fila": Pn_quere,
+        "Probabilidade de n clientes no sistema": Pn_system
     }
 
     return results
